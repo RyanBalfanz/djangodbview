@@ -1,0 +1,100 @@
+﻿{% extends "admin/change_list.html" %}
+{% load i18n %}
+{% load adminmedia admin_list i18n %}
+
+{% block extrahead %}
+    <style>
+        .table_caption {
+            font-weight:bold;
+            display: block;
+
+        }
+        #model-info {
+            border:1px solid #CCCCCC; 
+            position: relative; 
+            float:left;
+            width:19%;
+            overflow: auto;
+
+        }
+        #fields-info {
+            border:1px solid #CCCCCC; 
+            position:relative; 
+            float:right; 
+            left:0px;
+            width: 80%;
+            overflow: auto;
+        }
+        table {
+            border-top:1px solid #CCCCCC; 
+        }
+    </style>    
+{% endblock %}
+{% block content_title %}
+    
+{% endblock %}
+{% block content %}
+
+    {% block object-tools %}
+        {# don't find why to use it here #}
+    {% endblock %}
+    <div id="model-info" style="border:1px solid #CCCCCC; position: relative; float:left;">
+        <span class="table_caption">{% trans "Model:" %}</span>
+
+        <table width="99%">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Value
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for info in model_info %}                
+                <tr class='{% cycle "row1" "row2" %}'>
+                    <td>
+                        {{ info.name }}
+                    </td>
+                    <td>
+                        {{ info.value }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id="fields-info">
+        <span class="table_caption">{% trans "Fields:" %}</span>
+        <table>
+            <thead>
+                <tr>
+                {% for th in model_fields.header %}
+                    <th>
+                        {{ th }}
+                    </th>
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for field in model_fields.fields %}                
+                <tr class='{% cycle "row1" "row2" %}'>
+                    {% for value in field %}
+                        <td>
+                            {{ value }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="float: none; clear:both">
+    </div>
+    <div>
+    <span class="table_caption">{% trans "Data:" %}</span>
+    {{ block.super }}
+    </div>
+{% endblock %}
