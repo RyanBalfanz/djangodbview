@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
+from django.contrib import admin
 
 class ContentTypeProxy(ContentType):
     class Meta:
@@ -18,7 +19,10 @@ class ContentTypeProxy(ContentType):
     def admin_link(self):
         """ returns link where object live in the admin panel"""
         # in case the object has not included to the admin panel, points nowhere
-        return "<a href='/admin/%s/%s/'>%s</a>" % (self.app_label, self.model, self.model_class()._meta.object_name)
+        link = "-"
+        if self.model_class() in admin.site._registry:
+            link = "<a href='/admin/%s/%s/'>%s</a>" % (self.app_label, self.model, self.model_class()._meta.object_name)            
+
+        return link
                 
     admin_link.allow_tags = True
-        

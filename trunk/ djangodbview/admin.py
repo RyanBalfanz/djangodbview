@@ -2,13 +2,11 @@ from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.views.main import ChangeList
 from dbview.models import ContentTypeProxy
-
 from django.contrib.admin.sites import AdminSite
 
 class ContentTypeProxyAdmin(admin.ModelAdmin):
-    list_display = ["object_name", "app_label", "name", "table_name"]
+    list_display = ["object_name", "app_label", "name", "admin_link", "table_name"]
     def change_view(self, request, object_id, extra_context=None):
-
         content_obj = self.model.objects.get(id=object_id)
         objects = content_obj.model_class().objects.all()
         cl = objects
@@ -75,4 +73,3 @@ class ContentTypeProxyAdmin(admin.ModelAdmin):
                                                                                                  "model_fields": model_fields})
         
 admin.site.register(ContentTypeProxy, ContentTypeProxyAdmin)
-
